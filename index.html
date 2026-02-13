@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mooonns Space - Tempat Sharing Monetloader SAMP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h1>Mooonns Space</h1>
+            </div>
+            <p class="subtitle">Tempat Showcase & Download File monetloader yang di buat oleh Mooonns A.K.A Bayden</p>
+        </header>
+
+        <main>
+            <div class="forum-stats">
+                <div class="stat">
+                    <i class="fas fa-code"></i>
+                    <span>Total Script: <strong id="totalItems">0</strong></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-tags"></i>
+                    <span>Kategori: <strong id="totalCategories">0</strong></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-download"></i>
+                    <span>File Tersedia: <strong id="totalDownloads">0</strong></span>
+                </div>
+            </div>
+
+            <div class="filter-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari script berdasarkan nama atau deskripsi...">
+                </div>
+                <div class="category-filters">
+                    <button class="category-filter active" data-category="all">Semua Script</button>
+                </div>
+            </div>
+
+            <div class="forum-list" id="forumList"></div>
+        </main>
+
+        <footer>
+            <p>Mooonns Space &copy; 2026 - One For All</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

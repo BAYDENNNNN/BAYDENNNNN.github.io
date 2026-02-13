@@ -1,0 +1,103 @@
+{
+  "forumItems": [
+    {
+      "id": 1,
+      "title": "AUTO LOGIN",
+      "description": "Script monetloader SA-MP Auto Login",
+      "categories": ["monet", "android"],
+      "images": [
+        "images/AutoLogin/AutoLogin1.jpg",
+        "images/AutoLogin/AutoLogin.jpg"
+      ],
+      "downloadLinks": [
+        {"name": "LIB", "url": "https://www.mediafire.com/file/hnkd02443orz821/lib.zip/file"},
+        {"name": "File Auto Login", "url": "https://www.mediafire.com/file/33ofzoxkfqtolmh/AutoLogin_by_Moons_A.K.A_Bayden.lua/file"}
+      ],
+      "tutorialLink": "https://vt.tiktok.com/ZSau61WLD/",
+      "previewLink": "https://vt.tiktok.com/ZS51E57xv/",
+      "tiktokUrl": "https://vt.tiktok.com/ZS51E57xv/",
+      "releaseDate": "2025-12-27",
+      "author": "Mooonns A.K.A Bayden",
+      "content": "<h3>Deskripsi Singkat</h3><ul><li>Script monetloader yang berfungsi untuk membantu pada saat kalian login hanya dengan 1x setting password saja. Auto Login dapat mempermudah pada saat relog ataupun login saat sedang mode streaming tanpa perlu password bocor ke public.</li></ul><h3>Cara Memasang</h3><ul><li>Ekstrak file ke Android > Media > (Nama Data) > monetloader > paste</li></ul><h3>Command</h3><ul><li>/setlogin = buat setting UCP & password</li></ul><ul><li>/listucp = buat ngecek UCP & PW server mana aja yang udah kalian simpen ( di lengkapi fitur delete UCP & PW )</li></ul><h3>NOTE</h3><ul><li>Sesuaikan dengan server apa yang di mainkan. Dikarenakan beberapa server menggunakan sistem UCP dan ada juga yang menggunakan Nickname IC. Jika menggunakan nickname IC, maka kalian isi UCP dengan nickname tersebut. jika server menggunakan UCP, maka isi UCP dengan UCP kalian</li></ul><ul><li>Pastikan pemasangan file dan lib sesuai dengan cara pemasangannya. jika mendapati masalah dapat bertanya di Discord saja. Link forum ada di bagian paling bawah</li></ul><h3>KEYLOGGER? GAUSAH MAKE</h3><h3>HANYA ORANG ORANG SAMPAH YANG MEMBAGIKAN KEYLOGGER"
+    },
+    {
+      "id": 2,
+      "title": "CUSTOM CHATLOG",
+      "description": "Script monetloader SA-MP Custom ChatLog",
+      "categories": ["monet", "android"],
+      "images": [
+        "images/CustomChatlog/Chatlog.jpg",
+        "images/CustomChatlog/Chatlog1.jpg"
+      ],
+      "downloadLinks": [
+        {"name": "LIB", "url": "https://www.mediafire.com/file/hnkd02443orz821/lib.zip/file"},
+        {"name": "File Custom Chatlog", "url": "https://www.mediafire.com/file/5bnscwcoieihvs7/Chatlog_Custom_by_Moons_A.K.A_Bayden.lua/file"}
+      ],
+      "tutorialLink": "https://vt.tiktok.com/ZSau61WLD/",
+      "previewLink": "",
+      "tiktokUrl": "-",
+      "releaseDate": "2026-02-15",
+      "author": "Mooonns A.K.A Bayden",
+      "content": "<h3>Deskripsi Singkat</h3><ul><li>Script monetloader yang berfungsi untuk mengubah tampilan chatlog agar menjadi lebih nyaman untuk digunakan. Di lengkapi juga dengan fitur Command Helper seperti pada PC dan tampilan chat yang dapat hilang seperti pada Five M yang dapat di atur pada setting</li></ul><h3>Cara Memasang</h3><ul><li>Ekstrak file ke Android > Media > (Nama Data) > monetloader > paste</li></ul><h3>Command</h3><ul><li>/chatset [ Window Setting ]</li></ul><h3>NOTE</h3><ul><li>Pastikan pemasangan file dan lib sesuai dengan cara pemasangannya. jika mendapati masalah dapat bertanya di Discord saja. Link forum ada di bagian paling bawah</li></ul>"
+    },
+    {
+      "id": 3,
+      "title": "CUSTOM DIALOG",
+      "description": "Script monetloader SA-MP Custom Dialog",
+      "categories": ["monet", "android"],
+      "images": [
+        "images/CustomDialog/Dialog.jpg",
+        "images/CustomDialog/Dialog1.jpg",
+        "images/CustomDialog/Dialog2.jpg"
+      ],
+      "downloadLinks": [
+        {"name": "LIB", "url": "https://www.mediafire.com/file/hnkd02443orz821/lib.zip/file"},
+        {"name": "File Custom Dialog", "url": "https://www.mediafire.com/file/sohb2qfh64travt/CustomDialog_by_Moons_A.K.A_Bayden.lua/file"}
+      ],
+      "tutorialLink": "https://vt.tiktok.com/ZSau61WLD/",
+      "previewLink": "https://vt.tiktok.com/ZSaupkB3d/",
+      "tiktokUrl": "https://vt.tiktok.com/ZSaupkB3d/",
+      "releaseDate": "2026-01-28",
+      "author": "Mooonns A.K.A Bayden",
+      "content": "<h3>Deskripsi Singkat</h3><ul><li>Script monetloader yang berfungsi untuk mengubah tampilan dialog server agar menjadi lebih menarik dengan sistem kostumisasi seperti PC</li></ul><h3>Cara Memasang</h3><ul><li>Ekstrak file ke Android > Media > (Nama Data) > monetloader > paste</li></ul><h3>Command</h3><ul><li>/settheme [ Window Setting ]</li></ul><h3>NOTE</h3><ul><li>Pastikan pemasangan file dan lib sesuai dengan cara pemasangannya. jika mendapati masalah dapat bertanya di Discord saja. Link forum ada di bagian paling bawah</li></ul>"
+    },
+    {
+      "id": 4,
+      "title": "STATS PLAYER",
+      "description": "Script monetloader SA-MP Stats Player",
+      "categories": ["monet", "android"],
+      "images": [
+        "images/StatsPlayer/StatsPlayer.jpg"
+      ],
+      "downloadLinks": [
+        {"name": "LIB", "url": "https://www.mediafire.com/file/hnkd02443orz821/lib.zip/file"},
+        {"name": "File Stats Player", "url": "https://www.mediafire.com/file/gl2jmmu8osvkhu7/StatsPlayer_by_Moons_A.K.A_Bayden.lua/file"}
+      ],
+      "tutorialLink": "https://vt.tiktok.com/ZSau61WLD/",
+      "previewLink": "https://vt.tiktok.com/ZSPfBbjSG/",
+      "tiktokUrl": "https://vt.tiktok.com/ZSPfBbjSG/",
+      "releaseDate": "2025-12-15",
+      "author": "Mooonns A.K.A Bayden",
+      "content": "<h3>Deskripsi Singkat</h3><ul><li>Script monetloader yang berfungsi untuk menampilkan stats player seperti: Nama, Server yang di mainkan, Lokasi, Coordinat, Tanggal , FPS, Jam Terkini, Total Waktu Bermain</li></ul><h3>Cara Memasang</h3><ul><li>Ekstrak file ke Android > Media > (Nama Data) > monetloader > paste</li></ul><h3>Command</h3><ul><li>/statpos = Untuk mengatur posisi [ toggle ON/OFF ]</li></ul><ul><li>/stathide = Untuk menyembunyikan stats [ toggle ON/OFF ]</li></ul><h3>NOTE</h3><ul><li>Pastikan pemasangan file dan lib sesuai dengan cara pemasangannya. jika mendapati masalah dapat bertanya di Discord saja. Link forum ada di bagian paling bawah</li></ul>"
+    },
+    {
+      "id": 5,
+      "title": "KALKULATOR",
+      "description": "Script monetloader SA-MP kalkulator",
+      "categories": ["monet", "android"],
+      "images": [
+        "images/Kalkulator/kalkulator.jpg"
+      ],
+      "downloadLinks": [
+        {"name": "LIB", "url": "https://www.mediafire.com/file/hnkd02443orz821/lib.zip/file"},
+        {"name": "File Kalkulator", "url": "https://www.mediafire.com/file/gpqtahr2l7tyolk/kalkulator.lua/file"}
+      ],
+      "tutorialLink": "",
+      "previewLink": "",
+      "tiktokUrl": "",
+      "releaseDate": "2025-12-26",
+      "author": "Mooonns A.K.A Bayden",
+      "content": "<h3>Deskripsi Singkat</h3><ul><li>Script monetloader yang berfungsi untuk membantu dalam menghitung untuk mempermudah dalam kegiatan roleplay. Dilengkapi juga dengan fitur copy yang akan mempermudah dalam pengetikan jumlah</li></ul><h3>Cara Memasang</h3><ul><li>Ekstrak file ke Android > Media > (Nama Data) > monetloader > paste</li></ul><h3>Command</h3><ul><li>/cal = memunculkan kalkulator [ toggle ON/OFF ]</li></ul><h3>NOTE</h3><ul><li>Pastikan pemasangan file dan lib sesuai dengan cara pemasangannya. jika mendapati masalah dapat bertanya di Discord saja. Link forum ada di bagian paling bawah</li></ul>"
+    }
+  ]
+}
