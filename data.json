@@ -31,10 +31,10 @@
       ],
       "downloadLinks": [
         {"name": "LIB", "url": "https://www.mediafire.com/file/hnkd02443orz821/lib.zip/file"},
-        {"name": "File Custom Chatlog", "url": "https://www.mediafire.com/file/5bnscwcoieihvs7/Chatlog_Custom_by_Moons_A.K.A_Bayden.lua/file"}
+        {"name": "File Custom Chatlog", "url": "https://www.mediafire.com/file/wajvp6bjiuzncgd/Chatlog_Custom_by_Moons_A.K.A_Bayden.lua/file?dkey=53azh3uy4s0&r=887"}
       ],
       "tutorialLink": "https://vt.tiktok.com/ZSau61WLD/",
-      "previewLink": "",
+      "previewLink": "https://vt.tiktok.com/ZSm67WAW8/",
       "tiktokUrl": "-",
       "releaseDate": "2026-02-15",
       "author": "Mooonns A.K.A Bayden",
@@ -100,4 +100,5 @@
       "content": "<h3>Deskripsi Singkat</h3><ul><li>Script monetloader yang berfungsi untuk membantu dalam menghitung untuk mempermudah dalam kegiatan roleplay. Dilengkapi juga dengan fitur copy yang akan mempermudah dalam pengetikan jumlah</li></ul><h3>Cara Memasang</h3><ul><li>Ekstrak file ke Android > Media > (Nama Data) > monetloader > paste</li></ul><h3>Command</h3><ul><li>/cal = memunculkan kalkulator [ toggle ON/OFF ]</li></ul><h3>NOTE</h3><ul><li>Pastikan pemasangan file dan lib sesuai dengan cara pemasangannya. jika mendapati masalah dapat bertanya di Discord saja. Link forum ada di bagian paling bawah</li></ul>"
     }
   ]
+
 }
