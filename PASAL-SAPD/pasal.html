@@ -609,43 +609,54 @@
     }
     
     async function fetchPasalData() {
-        const url = "https://raw.githubusercontent.com/DarknessNightmare/Data/refs/heads/main/Pasal.txt";
-        try {
-            tbody.innerHTML = `<tr><td colspan="5" class="loading-placeholder">🔄 Mengunduh data pasal ...</td></tr>`;
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const text = await response.text();
-            const lines = text.split(/\r?\n/);
-            const parsed = [];
-            for (let line of lines) {
-                if (line.trim() === "") continue;
-                let [pasal_ayat, pelanggaran, denda, sanksi] = line.split(',').map(s => s.trim());
-                if (pasal_ayat && pelanggaran) {
-                    parsed.push({
-                        pasal_ayat: pasal_ayat,
-                        pelanggaran: pelanggaran || '-',
-                        denda: denda || '0',
-                        sanksi: sanksi || '-'
-                    });
-                }
+    const url = "https://raw.githubusercontent.com/DarknessNightmare/Data/refs/heads/main/Pasal.txt";
+    try {
+        tbody.innerHTML = `<tr><td colspan="5" class="loading-placeholder">🔄 Mengunduh data pasal ...</td></tr>`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        const lines = text.split(/\r?\n/);
+        const parsed = [];
+        for (let line of lines) {
+            if (line.trim() === "") continue;
+            let [pasal_ayat, pelanggaran, denda, sanksi] = line.split(',').map(s => s.trim());
+            if (pasal_ayat && pelanggaran) {
+                parsed.push({
+                    pasal_ayat: pasal_ayat,
+                    pelanggaran: pelanggaran || '-',
+                    denda: denda || '0',
+                    sanksi: sanksi || '-'
+                });
             }
-            if (parsed.length === 0) throw new Error("Data kosong");
-            masterPasalData = parsed;
-            selectedPasalMap.clear();
-            recalcTotals();
-            renderTable();
-        } catch (err) {
-            console.error(err);
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:32px; color:#ffae70;">❌ Gagal memuat data pasal. Coba refresh atau periksa koneksi.<br>${err.message}</td></tr>`;
-            masterPasalData = [
-                { pasal_ayat: "Pasal 287", pelanggaran: "Melanggar rambu lalu lintas", denda: "$250", sanksi: "0 BULAN" },
-                { pasal_ayat: "Pasal 338", pelanggaran: "Pembunuhan", denda: "$5000", sanksi: "20 BULAN" },
-                { pasal_ayat: "Pasal 362", pelanggaran: "Pencurian", denda: "$1500", sanksi: "6 BULAN" },
-                { pasal_ayat: "Pasal 351", pelanggaran: "Penganiayaan ringan", denda: "$750", sanksi: "3 BULAN" }
-            ];
-            renderTable();
+        }
+        if (parsed.length === 0) throw new Error("Data kosong");
+        masterPasalData = parsed;
+        selectedPasalMap.clear();
+        recalcTotals();
+        renderTable();
+    } catch (err) {
+        console.error(err);
+        masterPasalData = [];
+        selectedPasalMap.clear();
+        recalcTotals();
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center; padding:32px;">
+                    <div style="background: rgba(200, 50, 50, 0.2); border-radius: 24px; padding: 20px;">
+                        <span style="font-size: 2rem;">⚠️</span>
+                        <h3 style="color: #ffaa88; margin: 8px 0;">Gagal Memuat Data Pasal</h3>
+                        <p style="color: #ffccaa;">${err.message}</p>
+                        <button id="retryFetchBtn" style="background: #2c7eff; border: none; padding: 8px 20px; border-radius: 40px; color: white; font-weight: bold; margin-top: 12px; cursor: pointer;">🔄 Coba Lagi</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+        const retryBtn = document.getElementById('retryFetchBtn');
+        if (retryBtn) {
+            retryBtn.addEventListener('click', () => fetchPasalData());
         }
     }
+}
     
     function setupEventDelegation() {
         document.querySelector('.table-wrapper').addEventListener('click', (e) => {
