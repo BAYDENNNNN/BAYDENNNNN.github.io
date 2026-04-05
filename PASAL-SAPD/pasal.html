@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PD Helper - Pasal Selector | WIRP Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #0a1a2f, #030c17);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .pasal-container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(12, 25, 45, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 32px;
+            border: 1px solid rgba(64, 128, 255, 0.35);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 180, 255, 0.1) inset;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .header {
+            padding: 20px 28px 12px 28px;
+            border-bottom: 1px solid rgba(0, 160, 255, 0.3);
+            background: rgba(5, 15, 30, 0.5);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #b3e4ff, #3c8aff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1::before {
+            content: "⚖️";
+            font-size: 1.8rem;
+            background: none;
+            -webkit-background-clip: unset;
+            color: #4c9eff;
+        }
+
+        .sub {
+            color: #8aaee0;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            border-left: 3px solid #2c7eff;
+            padding-left: 12px;
+        }
+
+        .search-area {
+            padding: 16px 28px 8px 28px;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 20, 45, 0.7);
+            border-radius: 60px;
+            border: 1px solid #2c6eb0;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: #5aa9ff;
+            box-shadow: 0 0 0 2px rgba(58, 130, 255, 0.4);
+        }
+
+        .search-icon {
+            padding: 0 16px;
+            color: #6c9fd1;
+            font-size: 1.2rem;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 14px 12px 14px 0;
+            font-size: 1rem;
+            color: #eef5ff;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #4f6f96;
+            font-weight: 400;
+        }
+
+        .table-wrapper {
+            margin: 8px 20px 16px 20px;
+            border-radius: 24px;
+            background: rgba(8, 20, 38, 0.6);
+            overflow: auto;
+            max-height: 460px;
+            border: 1px solid rgba(48, 110, 180, 0.5);
+            scrollbar-width: thin;
+        }
+
+        .pasal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 720px;
+        }
+
+        .pasal-table th {
+            text-align: left;
+            padding: 14px 12px;
+            background: rgba(0, 30, 60, 0.8);
+            color: #bbdcff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #2f6396;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(8px);
+        }
+
+        .pasal-table td {
+            padding: 12px 12px;
+            border-bottom: 1px solid rgba(46, 94, 145, 0.4);
+            color: #e2edff;
+            vertical-align: top;
+        }
+
+        .pasal-table tr:hover td {
+            background: rgba(40, 100, 180, 0.2);
+        }
+
+        .pasal-table th:nth-child(1) { width: 12%; }
+        .pasal-table th:nth-child(2) { width: 38%; }
+        .pasal-table th:nth-child(3) { width: 15%; }
+        .pasal-table th:nth-child(4) { width: 25%; }
+        .pasal-table th:nth-child(5) { width: 10%; text-align: center; }
+
+        .pasal-table td:nth-child(5) { text-align: center; }
+
+        .action-btn {
+            background: rgba(20, 65, 115, 0.8);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.15s;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .action-btn.add {
+            background: #1d6f3c;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .action-btn.add:hover {
+            background: #2b9b54;
+            transform: scale(1.02);
+        }
+        .action-btn.remove {
+            background: #a13232;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .action-btn.remove:hover {
+            background: #cf4848;
+            transform: scale(1.02);
+        }
+
+        .summary-panel {
+            background: rgba(0, 18, 35, 0.75);
+            margin: 8px 20px 24px 20px;
+            border-radius: 28px;
+            padding: 18px 24px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(60, 140, 230, 0.5);
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .stats-cards {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(16, 45, 80, 0.7);
+            padding: 8px 20px;
+            border-radius: 48px;
+            border-left: 3px solid #3c8aff;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7aaae0;
+        }
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #d6ecff;
+            line-height: 1.2;
+        }
+
+        .selected-pasal-list {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 12px 18px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            font-family: monospace;
+            word-break: break-word;
+            color: #b8d4ff;
+            border: 1px dashed #2f73b0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .btn-primary, .btn-secondary, .btn-copy {
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.15s;
+            background: #1e5793;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #0f6bcf;
+            box-shadow: 0 2px 8px rgba(0, 100, 255, 0.3);
+        }
+        .btn-primary:hover {
+            background: #2b7ee0;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #2f4f74;
+        }
+        .btn-secondary:hover {
+            background: #466c9e;
+        }
+        .btn-copy {
+            background: #2c7a47;
+        }
+        .btn-copy:hover {
+            background: #3e9e60;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background: #0b1c2fdd;
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            width: 90%;
+            max-width: 550px;
+            border: 1px solid #2f7ad0;
+            padding: 24px;
+            color: #ecf5ff;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+        }
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid #2c70b0;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+        }
+        .modal-details {
+            margin: 18px 0;
+            background: #021a2e60;
+            padding: 12px;
+            border-radius: 24px;
+            font-family: monospace;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .loading-placeholder {
+            text-align: center;
+            padding: 48px;
+            color: #7ca5d9;
+            font-style: italic;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a1c2e;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c6caf;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="pasal-container">
+    <div class="header">
+        <h1>Pasal & Hukuman Database</h1>
+        <div class="sub">Pilih pasal yang dikenakan — sistem akan menjumlah denda & masa kurungan</div>
+    </div>
+
+    <div class="search-area">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchPasal" placeholder="Cari pasal, pelanggaran, denda, atau sanksi..." autocomplete="off">
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="pasal-table" id="pasalTable">
+            <thead>
+                <tr><th>Pasal/Ayat</th><th>Pelanggaran</th><th>Denda</th><th>Sanksi</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="5" class="loading-placeholder">⏳ Memuat data pasal dari server...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="summary-panel">
+        <div class="stats-row">
+            <div class="stats-cards">
+                <div class="stat-card"><div class="stat-label">JUMLAH PASAL</div><div class="stat-value" id="totalPasalCount">0</div></div>
+                <div class="stat-card"><div class="stat-label">TOTAL BULAN</div><div class="stat-value" id="totalBulanValue">0</div></div>
+                <div class="stat-card"><div class="stat-label">TOTAL DENDA</div><div class="stat-value" id="totalDendaValue">$0</div></div>
+            </div>
+        </div>
+        <div class="selected-pasal-list" id="selectedPasalList">📋 Belum ada pasal dipilih</div>
+        <div class="button-group">
+            <button class="btn-secondary" id="clearAllBtn">🗑️ CLEAR</button>
+            <button class="btn-primary" id="confirmBtn">📌 KONFIRMASI</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">⚖️ Konfirmasi Pasal Terpilih</div>
+        <div id="modalDetailText" class="modal-details">Memuat...</div>
+        <div class="modal-buttons">
+            <button class="btn-secondary" id="modalCloseBtn">Batal</button>
+            <button class="btn-copy" id="modalCopyBtn">📋 DONE & COPY</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let masterPasalData = [];
+    let selectedPasalMap = new Map();
+    
+    const tbody = document.getElementById('tableBody');
+    const searchInput = document.getElementById('searchPasal');
+    const totalPasalSpan = document.getElementById('totalPasalCount');
+    const totalBulanSpan = document.getElementById('totalBulanValue');
+    const totalDendaSpan = document.getElementById('totalDendaValue');
+    const selectedPasalDiv = document.getElementById('selectedPasalList');
+    const clearBtn = document.getElementById('clearAllBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const modalOverlay = document.getElementById('confirmModal');
+    const modalDetailText = document.getElementById('modalDetailText');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalCopyBtn = document.getElementById('modalCopyBtn');
+
+    function parseDenda(dendaStr) {
+        if (!dendaStr) return 0;
+        let cleaned = dendaStr.toString().replace(/[^0-9]/g, '');
+        let num = parseInt(cleaned, 10);
+        return isNaN(num) ? 0 : num;
+    }
+
+    function parseBulan(sanksiStr) {
+        if (!sanksiStr) return 0;
+        const match = sanksiStr.toString().match(/(\d+)\s*BULAN/i);
+        if (match && match[1]) {
+            return parseInt(match[1], 10);
+        }
+        return 0;
+    }
+
+    function recalcTotals() {
+        let totalDenda = 0;
+        let totalBulan = 0;
+        let pasalNumbers = [];
+        for (let [pasalAyat, pasalObj] of selectedPasalMap.entries()) {
+            totalDenda += parseDenda(pasalObj.denda);
+            totalBulan += parseBulan(pasalObj.sanksi);
+            pasalNumbers.push(pasalAyat);
+        }
+        totalPasalSpan.innerText = selectedPasalMap.size;
+        totalBulanSpan.innerText = totalBulan;
+        totalDendaSpan.innerText = `$${totalDenda.toLocaleString()}`;
+        
+        if (selectedPasalMap.size === 0) {
+            selectedPasalDiv.innerHTML = "📋 Belum ada pasal dipilih";
+        } else {
+            selectedPasalDiv.innerHTML = `📌 Pasal terpilih: <strong>${pasalNumbers.join(', ')}</strong>`;
+        }
+        return { totalDenda, totalBulan, pasalNumbers };
+    }
+
+    function updateRowButton(pasalAyat) {
+        const row = document.querySelector(`tr[data-pasal-idx="${pasalAyat}"]`);
+        if (!row) return;
+        const btn = row.querySelector('.action-btn');
+        if (!btn) return;
+        const isSelected = selectedPasalMap.has(pasalAyat);
+        if (isSelected) {
+            btn.innerHTML = '−';
+            btn.classList.remove('add');
+            btn.classList.add('remove');
+            btn.title = 'Hapus pasal';
+        } else {
+            btn.innerHTML = '+';
+            btn.classList.remove('remove');
+            btn.classList.add('add');
+            btn.title = 'Tambah pasal';
+        }
+    }
+
+    function togglePasalSelection(pasalAyat, pasalObj) {
+        if (selectedPasalMap.has(pasalAyat)) {
+            selectedPasalMap.delete(pasalAyat);
+        } else {
+            selectedPasalMap.set(pasalAyat, pasalObj);
+        }
+        recalcTotals();
+        updateRowButton(pasalAyat);
+    }
+
+    function renderTable() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        let filteredData = [...masterPasalData];
+        
+        if (searchTerm !== "") {
+            filteredData = filteredData.filter(p => {
+                return p.pasal_ayat.toLowerCase().includes(searchTerm) ||
+                       p.pelanggaran.toLowerCase().includes(searchTerm) ||
+                       p.denda.toLowerCase().includes(searchTerm) ||
+                       p.sanksi.toLowerCase().includes(searchTerm);
+            });
+        }
+        
+        if (filteredData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:32px;">⚠️ Tidak ada pasal ditemukan</td></tr>`;
+            return;
+        }
+        
+        let html = '';
+        for (let p of filteredData) {
+            const isSelected = selectedPasalMap.has(p.pasal_ayat);
+            const btnClass = isSelected ? 'action-btn remove' : 'action-btn add';
+            const btnSymbol = isSelected ? '−' : '+';
+            html += `<tr data-pasal-idx="${escapeHtml(p.pasal_ayat)}">
+                        <td><strong>${escapeHtml(p.pasal_ayat)}</strong></td>
+                        <td>${escapeHtml(p.pelanggaran)}</td>
+                        <td>${escapeHtml(p.denda)}</td>
+                        <td>${escapeHtml(p.sanksi)}</td>
+                        <td><button class="${btnClass}" data-pasal="${escapeHtml(p.pasal_ayat)}">${btnSymbol}</button></td>
+                     </tr>`;
+        }
+        tbody.innerHTML = html;
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function clearAllSelections() {
+        selectedPasalMap.clear();
+        recalcTotals();
+        renderTable();
+    }
+    
+    function getClipboardText() {
+        let totalBulan = 0;
+        let totalDenda = 0;
+        let pasalList = [];
+        for (let [pasal, obj] of selectedPasalMap.entries()) {
+            totalBulan += parseBulan(obj.sanksi);
+            totalDenda += parseDenda(obj.denda);
+            pasalList.push(pasal);
+        }
+        const pasalString = pasalList.join(',');
+        return `${totalBulan} ${totalDenda} ${pasalString}`;
+    }
+    
+    function showConfirmModal() {
+        if (selectedPasalMap.size === 0) {
+            const tempDiv = document.createElement('div');
+            tempDiv.textContent = '⚠️ Belum ada pasal yang dipilih!';
+            tempDiv.style.cssText = 'position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#1f3a64; color:white; padding:12px 24px; border-radius:60px; z-index:2000; backdrop-filter:blur(12px); font-weight:500;';
+            document.body.appendChild(tempDiv);
+            setTimeout(() => tempDiv.remove(), 2000);
+            return;
+        }
+        
+        let totalBulan = 0, totalDenda = 0;
+        let pasalItems = [];
+        for (let [pasal, obj] of selectedPasalMap.entries()) {
+            totalBulan += parseBulan(obj.sanksi);
+            totalDenda += parseDenda(obj.denda);
+            pasalItems.push(pasal);
+        }
+        const pasalListStr = pasalItems.join(', ');
+        const detailHtml = `
+            <div style="margin-bottom:10px;"><span style="color:#8bb9ff;">📜 Jumlah Pasal:</span> <strong>${selectedPasalMap.size}</strong></div>
+            <div style="margin-bottom:10px;"><span style="color:#8bb9ff;">📋 Daftar Pasal:</span> ${pasalListStr}</div>
+            <div style="margin-bottom:10px;"><span style="color:#8bb9ff;">⏱️ Total Bulan:</span> ${totalBulan} bulan</div>
+            <div style="margin-bottom:10px;"><span style="color:#8bb9ff;">💰 Total Denda:</span> $${totalDenda.toLocaleString()}</div>
+            <div style="margin-top:12px; font-size:0.8rem; border-top:1px solid #2f6396; padding-top:10px;">📎 Format salinan: <code style="background:#02182e; padding:3px 8px; border-radius:12px;">${totalBulan} ${totalDenda} ${pasalItems.join(',')}</code></div>
+            <div class="note" style="margin-top:10px; font-size:0.7rem; color:#85b0e0;">💡 Gunakan untuk perintah /arrest [id] [bulan] [denda] [pasal]</div>
+        `;
+        modalDetailText.innerHTML = detailHtml;
+        modalOverlay.classList.add('active');
+    }
+    
+    function copyAndClose() {
+        if (selectedPasalMap.size === 0) {
+            modalOverlay.classList.remove('active');
+            return;
+        }
+        const copyText = getClipboardText();
+        navigator.clipboard.writeText(copyText).then(() => {
+            const notif = document.createElement('div');
+            notif.textContent = '✅ Tersalin: ' + copyText;
+            notif.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#1b4d2e; color:#eef; padding:10px 20px; border-radius:40px; z-index:2000; backdrop-filter:blur(16px); font-weight:500; font-size:0.85rem;';
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 2500);
+            modalOverlay.classList.remove('active');
+        }).catch(() => {
+            alert('Gagal menyalin, namun data: ' + copyText);
+        });
+    }
+    
+    async function fetchPasalData() {
+        const url = "https://raw.githubusercontent.com/DarknessNightmare/Data/refs/heads/main/Pasal.txt";
+        try {
+            tbody.innerHTML = `<tr><td colspan="5" class="loading-placeholder">🔄 Mengunduh data pasal ...</td></tr>`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const text = await response.text();
+            const lines = text.split(/\r?\n/);
+            const parsed = [];
+            for (let line of lines) {
+                if (line.trim() === "") continue;
+                let [pasal_ayat, pelanggaran, denda, sanksi] = line.split(',').map(s => s.trim());
+                if (pasal_ayat && pelanggaran) {
+                    parsed.push({
+                        pasal_ayat: pasal_ayat,
+                        pelanggaran: pelanggaran || '-',
+                        denda: denda || '0',
+                        sanksi: sanksi || '-'
+                    });
+                }
+            }
+            if (parsed.length === 0) throw new Error("Data kosong");
+            masterPasalData = parsed;
+            selectedPasalMap.clear();
+            recalcTotals();
+            renderTable();
+        } catch (err) {
+            console.error(err);
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:32px; color:#ffae70;">❌ Gagal memuat data pasal. Coba refresh atau periksa koneksi.<br>${err.message}</td></tr>`;
+            masterPasalData = [
+                { pasal_ayat: "Pasal 287", pelanggaran: "Melanggar rambu lalu lintas", denda: "$250", sanksi: "0 BULAN" },
+                { pasal_ayat: "Pasal 338", pelanggaran: "Pembunuhan", denda: "$5000", sanksi: "20 BULAN" },
+                { pasal_ayat: "Pasal 362", pelanggaran: "Pencurian", denda: "$1500", sanksi: "6 BULAN" },
+                { pasal_ayat: "Pasal 351", pelanggaran: "Penganiayaan ringan", denda: "$750", sanksi: "3 BULAN" }
+            ];
+            renderTable();
+        }
+    }
+    
+    function setupEventDelegation() {
+        document.querySelector('.table-wrapper').addEventListener('click', (e) => {
+            const btn = e.target.closest('.action-btn');
+            if (!btn) return;
+            const pasalAyat = btn.getAttribute('data-pasal');
+            if (!pasalAyat) return;
+            const pasalObj = masterPasalData.find(p => p.pasal_ayat === pasalAyat);
+            if (pasalObj) {
+                togglePasalSelection(pasalAyat, pasalObj);
+            } else {
+                const fakeObj = { pasal_ayat: pasalAyat, pelanggaran: '', denda: '0', sanksi: '0' };
+                togglePasalSelection(pasalAyat, fakeObj);
+            }
+        });
+        
+        searchInput.addEventListener('input', () => {
+            renderTable();
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            clearAllSelections();
+        });
+        
+        confirmBtn.addEventListener('click', () => {
+            showConfirmModal();
+        });
+        
+        modalCloseBtn.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+        
+        modalCopyBtn.addEventListener('click', () => {
+            copyAndClose();
+        });
+        
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+        });
+    }
+    
+    function init() {
+        setupEventDelegation();
+        fetchPasalData();
+    }
+    
+    init();
+</script>
+</body>
+</html>
