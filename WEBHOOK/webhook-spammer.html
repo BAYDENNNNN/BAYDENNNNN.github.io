@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Discord Webhook Sender | Mobile & Desktop</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0a0f1c 0%, #0c1122 100%);
+      font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .app-container {
+      max-width: 700px;
+      width: 100%;
+      margin: 0 auto;
+      overflow: visible;
+    }
+
+    .card {
+      background: rgba(18, 25, 45, 0.92);
+      backdrop-filter: blur(12px);
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(88, 130, 193, 0.2);
+      overflow: visible;
+    }
+
+    .card-header {
+      padding: 20px 20px 12px 20px;
+      border-bottom: 1px solid rgba(114, 137, 218, 0.3);
+    }
+
+    .card-header h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff, #b2c9ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-header h1:before {
+      content: "📡";
+      background: none;
+      color: #7c9eff;
+    }
+
+    .sub {
+      font-size: 0.75rem;
+      color: #8ea0c7;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #a5b9f0;
+      margin-bottom: 8px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: #0b1020;
+      border: 1.5px solid #28324e;
+      border-radius: 24px;
+      font-size: 0.95rem;
+      color: #f0f3fc;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #6d8eff;
+      outline: none;
+      background: #080d1a;
+      box-shadow: 0 0 0 3px rgba(109, 142, 255, 0.25);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 95px;
+      border-radius: 24px;
+    }
+
+    .row-2col {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .row-2col .input-group {
+      flex: 1;
+      min-width: 130px;
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: 0.7rem;
+      color: #7c8db0;
+      margin-top: 5px;
+    }
+
+    .button-bar {
+      display: flex;
+      gap: 14px;
+      margin: 24px 0 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px 12px;
+      border: none;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      background: #2d395c;
+      color: white;
+    }
+
+    button#sendBtn {
+      background: linear-gradient(100deg, #5865f2, #4c58cf);
+      box-shadow: 0 6px 14px rgba(88, 101, 242, 0.3);
+    }
+
+    button#sendBtn:active {
+      transform: scale(0.97);
+    }
+
+    button#stopBtn {
+      background: #382e3c;
+      border: 1px solid #bc6f7f;
+      color: #ffcfdd;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      transform: none;
+      cursor: not-allowed;
+    }
+
+    .progress-panel {
+      background: #0a0f1c;
+      border-radius: 28px;
+      padding: 14px 18px;
+      margin: 10px 0 18px;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #c8d6ff;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      background: #202a44;
+      border-radius: 20px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #6d8eff, #a86eff);
+      width: 0%;
+      height: 100%;
+      border-radius: 20px;
+      transition: width 0.2s ease;
+    }
+
+    .log-container {
+      margin-top: 20px;
+    }
+
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .log-header h3 {
+      font-size: 0.9rem;
+      color: #b7c6ff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .clear-log-btn {
+      background: none;
+      border: none;
+      color: #8f9fd0;
+      font-size: 0.7rem;
+      padding: 6px 12px;
+      border-radius: 30px;
+      background: #191e32;
+      cursor: pointer;
+    }
+
+    .log-area {
+      background: #070b16;
+      border-radius: 24px;
+      padding: 10px 12px;
+      height: 260px;
+      overflow-y: auto;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.75rem;
+      border: 1px solid #293454;
+    }
+
+    .log-entry {
+      display: flex;
+      gap: 10px;
+      padding: 8px 6px;
+      border-bottom: 1px solid #1a2340;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    .log-time {
+      color: #6e7da3;
+      min-width: 65px;
+      font-size: 0.7rem;
+    }
+
+    .log-badge {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .log-badge.success { color: #6ef0a0; }
+    .log-badge.error { color: #ff9292; }
+    .log-badge.info { color: #ffcd7e; }
+    .log-badge.warning { color: #f5b042; }
+
+    .log-text {
+      color: #e0ecff;
+      word-break: break-word;
+      flex: 1;
+    }
+
+    footer {
+      font-size: 0.65rem;
+      text-align: center;
+      padding: 16px;
+      border-top: 1px solid #202a44;
+      color: #6c7ea8;
+    }
+
+    /* Perbaikan untuk mobile: pastikan tidak ada overflow terpotong */
+    @media (max-width: 550px) {
+      body {
+        padding: 12px;
+        align-items: flex-start;
+      }
+      .card-content {
+        padding: 16px;
+      }
+      button {
+        padding: 12px 10px;
+      }
+      .row-2col {
+        gap: 12px;
+      }
+      .log-area {
+        height: 220px;
+      }
+      .card-header h1 {
+        font-size: 1.4rem;
+      }
+      .sub {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="card">
+    <div class="card-header">
+      <h1>Discord Webhook Sender</h1>
+      <div class="sub">Kirim pesan massal • Delay • Jumlah fleksibel</div>
+    </div>
+    <div class="card-content">
+      <div class="input-group">
+        <label>🔗 WEBHOOK URL</label>
+        <input type="url" id="webhookUrl" placeholder="https://discord.com/api/webhooks/..." value="">
+      </div>
+
+      <div class="input-group">
+        <label>✏️ PESAN</label>
+        <textarea id="messageText" rows="3" placeholder="Tulis pesan di sini..."></textarea>
+        <div class="char-counter"><span id="charCount">0</span> / 2000 karakter</div>
+      </div>
+
+      <div class="row-2col">
+        <div class="input-group">
+          <label>⏱️ DELAY (detik)</label>
+          <input type="number" id="delaySec" step="0.5" value="1.0" min="0.5">
+        </div>
+        <div class="input-group">
+          <label>🔁 JUMLAH KIRIM</label>
+          <input type="number" id="totalCount" step="1" value="1" min="1">
+        </div>
+      </div>
+
+      <div class="button-bar">
+        <button id="sendBtn">🚀 KIRIM</button>
+        <button id="stopBtn" disabled>⏹️ STOP</button>
+      </div>
+
+      <div class="progress-panel">
+        <div class="progress-stats">
+          <span>📊 PROGRESS</span>
+          <span><span id="sentCount">0</span> / <span id="totalTarget">0</span></span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="log-container">
+        <div class="log-header">
+          <h3>📋 LOG PENGIRIMAN</h3>
+          <button class="clear-log-btn" id="clearLogBtn">Bersihkan</button>
+        </div>
+        <div id="logArea" class="log-area">
+          <div class="log-entry"><span class="log-time">--:--:--</span><span class="log-badge info">⚡ SIAP</span><span class="log-text">Isi webhook & pesan, lalu tekan KIRIM</span></div>
+        </div>
+      </div>
+    </div>
+    <footer>⚠️ Pastikan webhook valid. Disarankan delay ≥ 1 detik untuk hindari rate limit Discord.</footer>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const webhookInput = document.getElementById('webhookUrl');
+    const messageInput = document.getElementById('messageText');
+    const delayInput = document.getElementById('delaySec');
+    const countInput = document.getElementById('totalCount');
+    const sendBtn = document.getElementById('sendBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const sentCountSpan = document.getElementById('sentCount');
+    const totalTargetSpan = document.getElementById('totalTarget');
+    const progressFill = document.getElementById('progressFill');
+    const logArea = document.getElementById('logArea');
+    const charCountSpan = document.getElementById('charCount');
+    const clearLogBtn = document.getElementById('clearLogBtn');
+
+    let active = false;
+    let stopFlag = false;
+    let currentSent = 0;
+    let totalNeeded = 0;
+
+    function updateCharCounter() {
+      const len = messageInput.value.length;
+      charCountSpan.innerText = len;
+      if(len > 2000) charCountSpan.style.color = "#ff8a8a";
+      else charCountSpan.style.color = "#7c8db0";
+    }
+    messageInput.addEventListener('input', updateCharCounter);
+    updateCharCounter();
+
+    function addLog(type, badgeText, text) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'log-time';
+      timeSpan.innerText = timeStr;
+      
+      const badgeSpan = document.createElement('span');
+      badgeSpan.className = `log-badge ${type}`;
+      badgeSpan.innerText = badgeText;
+      
+      const textSpan = document.createElement('span');
+      textSpan.className = 'log-text';
+      textSpan.innerText = text;
+      
+      entry.appendChild(timeSpan);
+      entry.appendChild(badgeSpan);
+      entry.appendChild(textSpan);
+      logArea.appendChild(entry);
+      entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      while(logArea.children.length > 280) logArea.removeChild(logArea.firstChild);
+    }
+
+    function clearLogs() {
+      while(logArea.firstChild) logArea.removeChild(logArea.firstChild);
+      addLog('info', '🧹', 'Log dibersihkan');
+    }
+    clearLogBtn.addEventListener('click', clearLogs);
+
+    function resetUI() {
+      active = false;
+      stopFlag = false;
+      sendBtn.disabled = false;
+      stopBtn.disabled = true;
+      webhookInput.disabled = false;
+      messageInput.disabled = false;
+      delayInput.disabled = false;
+      countInput.disabled = false;
+    }
+
+    function updateProgressUI(sent, total) {
+      sentCountSpan.innerText = sent;
+      totalTargetSpan.innerText = total;
+      const percent = total === 0 ? 0 : (sent / total) * 100;
+      progressFill.style.width = `${percent}%`;
+    }
+
+    async function sendToWebhook(url, content) {
+      if(!url || (!url.startsWith('https://discord.com/api/webhooks/') && !url.startsWith('https://discordapp.com/api/webhooks/'))) {
+        throw new Error('URL Webhook tidak valid (perlu discord.com/api/webhooks)');
+      }
+      if(content.length > 2000) throw new Error(`Pesan melebihi 2000 karakter (${content.length})`);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: content })
+      });
+      if(!response.ok) {
+        let errMsg = `HTTP ${response.status}`;
+        try { const data = await response.json(); errMsg += ` - ${data.message || JSON.stringify(data)}`; } catch(e) {}
+        throw new Error(errMsg);
+      }
+      return true;
+    }
+
+    async function startSender() {
+      if(active) {
+        addLog('warning', '⚠️', 'Masih ada proses berjalan, gunakan STOP terlebih dahulu');
+        return;
+      }
+      const webhook = webhookInput.value.trim();
+      const message = messageInput.value;
+      let delaySec = parseFloat(delayInput.value);
+      let total = parseInt(countInput.value, 10);
+
+      if(!webhook) { addLog('error', '❌', 'Webhook URL wajib diisi'); return; }
+      if(!message) { addLog('error', '❌', 'Pesan tidak boleh kosong'); return; }
+      if(message.length > 2000) { addLog('error', '❌', `Pesan terlalu panjang (${message.length}/2000)`); return; }
+      if(isNaN(delaySec) || delaySec < 0.3) { addLog('error', '❌', 'Delay minimal 0.3 detik'); return; }
+      if(isNaN(total) || total < 1) { addLog('error', '❌', 'Jumlah pengiriman minimal 1'); return; }
+
+      if(total > 80) addLog('warning', '📢', `Mengirim ${total} pesan. Gunakan delay cukup untuk hindari rate limit.`);
+
+      active = true;
+      stopFlag = false;
+      currentSent = 0;
+      totalNeeded = total;
+
+      updateProgressUI(0, total);
+      sendBtn.disabled = true;
+      stopBtn.disabled = false;
+      webhookInput.disabled = true;
+      messageInput.disabled = true;
+      delayInput.disabled = true;
+      countInput.disabled = true;
+
+      addLog('info', '🚀', `Memulai pengiriman ${total} pesan, delay ${delaySec} detik`);
+
+      for(let i = 1; i <= total; i++) {
+        if(stopFlag) {
+          addLog('warning', '⏹️', `Proses dihentikan manual pada pesan ke-${i-1} dari ${total}`);
+          break;
+        }
+        currentSent = i;
+        updateProgressUI(currentSent, total);
+        try {
+          addLog('info', '📤', `Mengirim pesan ke-${i} ...`);
+          await sendToWebhook(webhook, message);
+          addLog('success', '✅', `Pesan ke-${i} berhasil terkirim`);
+        } catch(err) {
+          addLog('error', '❌', `Gagal (${i}): ${err.message}`);
+        }
+        if(i < total && !stopFlag) {
+          await new Promise(r => setTimeout(r, delaySec * 1000));
+        }
+      }
+
+      if(!stopFlag) addLog('success', '🏁', `Selesai. Terkirim/percobaan: ${currentSent} dari ${total}`);
+      else addLog('info', '🛑', 'Pengiriman dihentikan');
+      resetUI();
+      updateProgressUI(currentSent, total);
+    }
+
+    function stopSending() {
+      if(!active) {
+        addLog('warning', '⚠️', 'Tidak ada pengiriman aktif');
+        return;
+      }
+      stopFlag = true;
+      addLog('info', '🛑', 'Menghentikan setelah pesan saat ini selesai...');
+      stopBtn.disabled = true;
+    }
+
+    sendBtn.addEventListener('click', startSender);
+    stopBtn.addEventListener('click', stopSending);
+
+    delayInput.addEventListener('change', () => {
+      let v = parseFloat(delayInput.value);
+      if(v < 0.5) addLog('warning', '⚠️', 'Delay < 0.5 detik berisiko kena rate limit Discord');
+    });
+    countInput.addEventListener('change', () => {
+      let val = parseInt(countInput.value,10);
+      if(val > 150) addLog('info', '📢', `Jumlah besar (${val}) — pastikan delay cukup.`);
+    });
+  })();
+</script>
+</body>
+</html>
